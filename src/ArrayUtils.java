@@ -8,6 +8,9 @@
  *
  * @author ctralie
  */
+import java.util.ArrayList;
+import java.util.Iterator;
+
 public class ArrayUtils {
     public static int[] addElement(int[] arr, int element) {
         int[] toReturn = new int[arr.length+1];
@@ -20,11 +23,24 @@ public class ArrayUtils {
         return toReturn;
     }
     
-    public static void main(String[] args) {
-        int[] arr = {1, 6, 2, 5};
-        arr = addElement(arr, 10);
-        for (int i = 0; i < arr.length; i++) {
-            System.out.print(arr[i] + " ");
+    public static int[] removeFirstElement(int[] arr) {
+        int N = arr.length;
+        int[] toReturn = new int[N-1];
+        for (int i = 1; i < N; i++) {
+            toReturn[i-1] = arr[i];
         }
+        return toReturn;
+    }
+    
+    public static void main(String[] args) {
+        ArrayList<Integer> arr = new ArrayList<>();
+        for (int i = 0; i < 20; i++) {
+            arr.add(i);
+        }
+        Iterator<Integer> iter = arr.iterator();
+        while (iter.hasNext()) {
+            int val = iter.next();
+        }
+        System.out.println(arr);
     }
 }

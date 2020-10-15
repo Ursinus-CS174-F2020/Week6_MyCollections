@@ -1,8 +1,17 @@
+
+import java.util.Iterator;
+
 /**
  * Our very own linked list collection class!  
  * @param <Item> We use a "generic" so that it can be a list of any object type
  */
-public class LinkedList<Item> {
+public class LinkedList<Item> implements Iterable {
+    
+    /**
+     * 
+     *  head ->  | value1 | -> | value2 | -> | value 3| -> null
+     * 
+     */
     
     /**
      * An "inner class" that's only accessible from within LinkedList.
@@ -90,13 +99,84 @@ public class LinkedList<Item> {
     /**
      * Delete the first item and return the value
      * that it was holding
+     * NOTE: A constant time operation
+     * 
+     * head -> | first | -> |second| -> |third| -> ...
+     * head = first, first.next = second, second.next = third
+     * head -> |second| -> |third| -> ...
      * @return 
      */
     public Item removeFirst() {
         Item value = head.value;
-        //head.next = head.next.next;
+        //Node first = head;
+        //Node second = first.next;
+        //head = second;
         head = head.next;
         return value;
+    }
+    
+    /**
+     * Remove the first occurrence of an item in the list
+     * @param value Value to remove
+     * @return The value if it was found, or null otherwise
+     */
+    public Item removeByValue(Item value) {
+        Item ret = null;
+        if (head != null) {
+            if (head.value.equals(value)) {
+                ret = removeFirst();
+            }
+            else {
+                Node last = head;
+                Node node = head.next;
+                while (node != null && !node.value.equals(value)) {
+                    last = node;
+                    node = node.next;
+                }
+                if (node != null) {
+                    ret = node.value;
+                    last.next = node.next;
+                }
+            }
+        }
+        return ret;
+    }
+    
+    /**
+     * Clear the whole list
+     */
+    public void clear() {
+        head = null;
+    }
+    
+    private class LLIterator implements Iterator<Item> {
+        private Node cursor;
+        private LinkedList list;
+        
+        public LLIterator(LinkedList list) {
+            this.list = list;
+            cursor = head;
+        }
+        
+        @Override
+        public boolean hasNext() {
+            return cursor != null;
+        }
+
+        @Override
+        public Item next() {
+            Item item = null;
+            if (cursor != null) {
+                item = cursor.value;
+                cursor = cursor.next;
+            }
+            return item;
+        }
+        
+    }
+    
+    public Iterator iterator() {
+        return new LLIterator(this);
     }
     
     public static void main(String[] args) {
@@ -107,11 +187,9 @@ public class LinkedList<Item> {
         list.add(10);
         list.add(5);
         list.add(0);
-        System.out.println(list);
-        for (int i = 0; i < 3; i++) {
-            System.out.println(list.removeFirst());
-            System.out.println(list);     
+        Iterator<Integer> iter = list.iterator();
+        while (iter.hasNext()) {
+            System.out.print(iter.next() + " ");
         }
-
     }
 }

@@ -10,7 +10,7 @@
  */
 import java.util.HashMap;
 
-public class Person implements Cloneable {
+public class Person implements Cloneable, Comparable {
     private String name;
     public Person(String n) {
         name = n;
@@ -60,9 +60,31 @@ public class Person implements Cloneable {
         System.out.println(a + ", " + b);
     }
     
+    public static void testObjectEquality() {
+        Person catChris = new Person("Chris");
+        Person dogChris = new Person("Chris");
+        System.out.println(catChris == dogChris);
+        System.out.println(catChris.equals(dogChris));
+        
+        Integer i = 10;
+        Integer j = 10;
+        System.out.println(i.equals(j));
+    }
+    
     public static void main(String[] args){
-        testObjectDeepCopy();
+        //testObjectDeepCopy();
         //testObjectReferences();
         //testCharReference();
+        testObjectEquality();
+    }
+
+    @Override
+    public int compareTo(Object t) {
+        Person other = (Person)t;
+        return this.name.compareTo(other.name);
+    }
+    
+    public boolean equals(Person other) {
+        return this.compareTo(other) == 0;
     }
 }
