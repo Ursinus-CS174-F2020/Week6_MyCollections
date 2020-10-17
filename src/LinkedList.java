@@ -107,11 +107,11 @@ public class LinkedList<Item> implements Iterable {
      * @return 
      */
     public Item removeFirst() {
-        Item value = head.value;
-        //Node first = head;
-        //Node second = first.next;
-        //head = second;
-        head = head.next;
+        Item value = null;
+        if (head != null) {
+            value = head.value;
+            head = head.next;
+        }
         return value;
     }
     
